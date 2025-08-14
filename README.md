@@ -1,4 +1,5 @@
 # Tetris in C++
+[![CI](https://github.com/bilele123123/tetris_sfml/actions/workflows/ci.yml/badge.svg)](https://github.com/bilele123123/tetris_sfml/actions/workflows/ci.yml)
 
 ### Background
 Simple and small project to learn C++, and just to see if I can.
