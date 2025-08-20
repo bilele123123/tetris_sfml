@@ -29,7 +29,11 @@ The Tetris implementation will be a simple MVP
 ### Low-Level Design
 
 #### Components:
-1. Creating a 480 x 640 window
+1. Creating a 1024 x 768 window
+```
+sf::RenderWindow window(sf::VideoMode({1024, 768}), "Tetris in C++");
+```
+
 2. Board array: 10x20 grid
 3. Randomized objects falling from top of the grid down with gravity
 4. Menu screen (start button, quit)

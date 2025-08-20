@@ -14,4 +14,4 @@ FetchContent_MakeAvailable(SFML)
 
 add_executable(tetris_sfml src/main.cpp)
 target_compile_features(tetris_sfml PRIVATE cxx_std_17)
-target_link_libraries(tetris_sfml PRIVATE sfml-graphics)
+target_link_libraries(tetris_sfml PRIVATE sfml-graphics fmt)
