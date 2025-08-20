@@ -9,34 +9,16 @@ The Tetris implementation will be a simple MVP
 
 
 ### Requirements
-| Business | Technical |
-| --- | --- |
-| User can start game | Package the application into an executable (.exe) |
-| User can rotate pieces| Implement logic to rotate pieces 90 degrees left and right |
-| User can stash pieces | Implement logic to store temporary pieces |
-| User can restart game | Retry logic |
-| Pieces are random at start | Generate randomized number, and associate each piece with a dedicated number |
-| User can clear lines when pieces are aligned| Logic to check when all pieces are aligned in a straight line horizontally and clear it, bottom up |
+-  User can start game
+-  User can rotate pieces
+-  User can stash pieces
+-  User can restart game
+-  Pieces are random at start
+-  User can clear lines when pieces are aligned
 
+### Design (TBD)
 
-### High-Level Design
-
-1. C++ Platform and libraries
-    - SFML
-2. Rendering style
-    - 10 x 20 grid
-
-### Low-Level Design
-
-#### Components:
-1. Creating a 1024 x 768 window
-```
-sf::RenderWindow window(sf::VideoMode({1024, 768}), "Tetris in C++");
-```
-
-2. Board array: 10x20 grid
-3. Randomized objects falling from top of the grid down with gravity
-4. Menu screen (start button, quit)
-5. Packaging the application into an executable (.exe)
-6. Game graphical display
-7. Game logic
+#### Game grid component:
+- 10 x 20 grid
+- Tetromino follow the 7 shape conventions:
+  - [I, J, L, O, S, T, Z]
