@@ -4,14 +4,29 @@ project(Tetris LANGUAGES CXX)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 include(FetchContent)
-FetchContent_Declare(SFML
+FetchContent_Declare(
+    SFML
     GIT_REPOSITORY https://github.com/SFML/SFML.git
     GIT_TAG 3.0.1
     GIT_SHALLOW ON
     EXCLUDE_FROM_ALL
-    SYSTEM)
-FetchContent_MakeAvailable(SFML)
+    SYSTEM
+)
+
+FetchContent_Declare(
+    fmt
+    GIT_REPOSITORY https://github.com/fmtlib/fmt.git
+    GIT_TAG 11.2.0
+    GIT_SHALLOW ON
+    EXCLUDE_FROM_ALL
+    SYSTEM
+)
+
+FetchContent_MakeAvailable(
+    SFML
+    fmt
+)
 
 add_executable(tetris_sfml src/main.cpp)
 target_compile_features(tetris_sfml PRIVATE cxx_std_17)
-target_link_libraries(tetris_sfml PRIVATE sfml-graphics)
+target_link_libraries(tetris_sfml PRIVATE sfml-graphics fmt)
