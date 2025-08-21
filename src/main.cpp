@@ -33,22 +33,22 @@ void drawCell(sf::RenderWindow &window, std::vector<std::vector<unsigned char>> 
     }
 }
 
-void resetGrid(unsigned char &x, unsigned char &y, std::vector<std::vector<unsigned char>> &gameGrid, unsigned char type) 
+void resetGrid(unsigned char &x, unsigned char &y, std::vector<std::vector<unsigned char>> &gameGrid, unsigned char type)
 {
     switch (type)
     {
-        case 1:
-            gameGrid[x][y] = 0;
-            gameGrid[x + 1][y] = 0;
-            gameGrid[x][y + 1] = 0;
-            gameGrid[x + 1][y + 1] = 0;
-            break;
-        case 2:
-            gameGrid[x][y] = 0;
-            gameGrid[x - 1][y] = 0;
-            gameGrid[x + 1][y] = 0;
-            gameGrid[x + 2][y] = 0;
-            break;
+    case 1:
+        gameGrid[x][y] = 0;
+        gameGrid[x + 1][y] = 0;
+        gameGrid[x][y + 1] = 0;
+        gameGrid[x + 1][y + 1] = 0;
+        break;
+    case 2:
+        gameGrid[x][y] = 0;
+        gameGrid[x - 1][y] = 0;
+        gameGrid[x + 1][y] = 0;
+        gameGrid[x + 2][y] = 0;
+        break;
     }
 };
 
@@ -56,51 +56,74 @@ void drawTetrimino(unsigned char &x, unsigned char &y, std::vector<std::vector<u
 {
     switch (type)
     {
-        case 1: // Tetrimino O
-            gameGrid[x][y] = 1;
-            gameGrid[x + 1][y] = 1;
-            gameGrid[x][y + 1] = 1;
-            gameGrid[x + 1][y + 1] = 1;
-            break;
-        case 2: // Tetrimino I
-            gameGrid[x][y] = 2;
-            gameGrid[x - 1][y] = 2;
-            gameGrid[x + 1][y] = 2;
-            gameGrid[x + 2][y] = 2;
-            break;
+    case 1: // Tetrimino O
+        gameGrid[x][y] = 1;
+        gameGrid[x + 1][y] = 1;
+        gameGrid[x][y + 1] = 1;
+        gameGrid[x + 1][y + 1] = 1;
+        break;
+    case 2: // Tetrimino I
+        gameGrid[x][y] = 2;
+        gameGrid[x - 1][y] = 2;
+        gameGrid[x + 1][y] = 2;
+        gameGrid[x + 2][y] = 2;
+        break;
     }
 };
 
-void tetriminoDropInteraction(unsigned char &x, unsigned char &y, std::vector<std::vector<unsigned char>> &gameGrid, unsigned char &shape) 
+bool pieceCollision(unsigned char &x, unsigned char &y, std::vector<std::vector<unsigned char>> &gameGrid, unsigned char &shape)
 {
     switch (shape)
     {
-        case 1:
-            if (y < COLUMNS - 2)
-            {
-                resetGrid(x, y, gameGrid, shape);
-                y++;
-                drawTetrimino(x, y, gameGrid, shape);
-            }
-            else 
-            {
-                y = 0;
-                shape++;
-            }
-            break;
-        case 2:
-            if (y < COLUMNS - 1)
-            {
-                resetGrid(x, y, gameGrid, shape);
-                y++;
-                drawTetrimino(x, y, gameGrid, shape);
-            }
-            else
-            {
-                y = 0;
-                shape = 1;
-            }
-            break;
+    case (1):
+        if (y >= COLUMNS - 2)
+            return true; // Y position of piece is out of bounds
+        if (gameGrid[x][y + 2] != 0 || gameGrid[x + 1][y + 2] != 0)
+            return true;
+        return false;
+        break;
+    case (2):
+        if (y >= COLUMNS - 1)
+            return true;
+        if (gameGrid[x][y + 1] != 0 || gameGrid[x - 1][y + 1] != 0 || 
+            gameGrid[x + 1][y + 1] != 0 || gameGrid[x + 2][y + 1] != 0)
+            return true;
+        return false;
+        break;
+    }
+    return false;
+};
+
+void tetriminoDropInteraction(unsigned char &x, unsigned char &y, std::vector<std::vector<unsigned char>> &gameGrid, unsigned char &shape)
+{
+    switch (shape)
+    {
+    case 1:
+        if (!pieceCollision(x, y, gameGrid, shape))
+        {
+            resetGrid(x, y, gameGrid, shape);
+            y++;
+            drawTetrimino(x, y, gameGrid, shape);
+        }
+        else
+        {
+            y = 0;
+            shape++;
+        }
+        break;
+    case 2:
+        if (!pieceCollision(x, y, gameGrid, shape))
+        {
+            resetGrid(x, y, gameGrid, shape);
+            y++;
+            drawTetrimino(x, y, gameGrid, shape);
+        }
+        else
+        {
+            y = 0;
+            shape = 1;
+        }
+        break;
     }
 };
 
@@ -113,7 +136,7 @@ int main()
     std::vector<std::vector<unsigned char>> gameGrid(ROWS, std::vector<unsigned char>(COLUMNS));
 
     sf::Clock clock;
-    const float fallInterval = 0.1f;
+    const float fallInterval = 0.8f;
 
     unsigned char x = 4; // top middle of the grid
     unsigned char y = 0;
