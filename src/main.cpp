@@ -11,27 +11,37 @@ void drawCell(sf::RenderWindow &window, std::vector<std::vector<unsigned char>> 
         for (unsigned char j = 0; j < COLUMNS; j++)
         {
             sf::Vector2f cellPosition(CELL_SIZE * i, CELL_SIZE * j);
-            if (gameGrid[i][j] == 1)
+            switch (gameGrid[i][j])
             {
+            case 1:
                 cell.setFillColor(sf::Color(255, 255, 0));
                 cell.setPosition(cellPosition);
                 window.draw(cell);
-            }
-            else if (gameGrid[i][j] == 2)
-            {
+                break;
+            case 2:
                 cell.setFillColor(sf::Color(0, 255, 0));
                 cell.setPosition(cellPosition);
                 window.draw(cell);
-            }
-            else
-            {
+                break;
+            case 3:
+                cell.setFillColor(sf::Color(0, 0, 139));
+                cell.setPosition(cellPosition);
+                window.draw(cell);
+                break;
+            case 4:
+                cell.setFillColor(sf::Color(255, 165, 0));
+                cell.setPosition(cellPosition);
+                window.draw(cell);
+                break;
+            default:
                 cell.setFillColor(sf::Color(0, 0, 25));
                 cell.setPosition(cellPosition);
                 window.draw(cell);
+                break;
             }
         }
     }
-}
+};
 
 void resetGrid(unsigned char &x, unsigned char &y, std::vector<std::vector<unsigned char>> &gameGrid, unsigned char type)
 {
@@ -68,6 +78,17 @@ void drawTetrimino(unsigned char &x, unsigned char &y, std::vector<std::vector<u
         gameGrid[x + 1][y] = 2;
         gameGrid[x + 2][y] = 2;
         break;
+    case 3: // Tetrimino J
+        gameGrid[x + 1][y] = 3;
+        gameGrid[x + 1][y + 1] = 3;
+        gameGrid[x + 1][y + 2] = 3;
+        gameGrid[x][y + 2] = 3;
+        break;
+    case 4: // Tetrimino L
+        gameGrid[x][y] = 4;
+        gameGrid[x][y + 1] = 4;
+        gameGrid[x][y + 2] = 4;
+        gameGrid[x + 1][y + 2] = 4;
     }
 };
 
@@ -85,7 +106,7 @@ bool pieceCollision(unsigned char &x, unsigned char &y, std::vector<std::vector<
     case (2):
         if (y >= COLUMNS - 1)
             return true;
-        if (gameGrid[x][y + 1] != 0 || gameGrid[x - 1][y + 1] != 0 || 
+        if (gameGrid[x][y + 1] != 0 || gameGrid[x - 1][y + 1] != 0 ||
             gameGrid[x + 1][y + 1] != 0 || gameGrid[x + 2][y + 1] != 0)
             return true;
         return false;
