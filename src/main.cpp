@@ -130,6 +130,7 @@ void tetriminoDropInteraction(unsigned char &x, unsigned char &y, std::vector<st
         {
             y = 0;
             shape++;
+            drawTetrimino(x, y, gameGrid, shape);
         }
         break;
     case 2:
@@ -143,6 +144,7 @@ void tetriminoDropInteraction(unsigned char &x, unsigned char &y, std::vector<st
         {
             y = 0;
             shape = 1;
+            drawTetrimino(x, y, gameGrid, shape);
         }
         break;
     }
